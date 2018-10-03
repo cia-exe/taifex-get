@@ -179,22 +179,27 @@ his_year:2016
 
         private static void SaveTradeInf(string sy, string sm, string sd, string ey, string em, string ed, string fileName)
         {
-            string url = "http://www.taifex.com.tw/chinese/3/3_1_2dl.asp";
+            string url = "http://www.taifex.com.tw/cht/3/futDataDown";
             var queryData = NewQueryData(sy, sm, sd, ey, em, ed);
-            queryData.Add("COMMODITY_ID", "all");
+            queryData.Add("commodity_id", "all");
+            queryData.Add("down_type", "1"); //?
+            queryData.Add("commodity_id2", ""); //?
             PostAndSave(url, queryData.ToString(), fileName);
         }
 
         private static void Save3LegelPersons(string sy, string sm, string sd, string ey, string em, string ed, string fileName)
         {
-            string url = "http://www.taifex.com.tw/chinese/3/7_12_8dl.asp";
+            string url = "http://www.taifex.com.tw/cht/3/futContractsDateDown";
             var queryData = NewQueryData(sy, sm, sd, ey, em, ed);
+            queryData.Add("commodity_id", ""); //?
+            //queryData.Add("firstDate", "2015/10/03 00:00"); //?
+            //queryData.Add("lastDate", "2018/10/03 00:00"); //?
             PostAndSave(url, queryData.ToString(), fileName);
         }
 
         private static void SaveLargeTraders(string sy, string sm, string sd, string ey, string em, string ed, string fileName)
         {
-            string url = "http://www.taifex.com.tw/chinese/3/7_8_1dl.asp";
+            string url = "http://www.taifex.com.tw/cht/3/largeTraderFutDown";
             var queryData = NewQueryData(sy, sm, sd, ey, em, ed);
             PostAndSave(url, queryData.ToString(), fileName);
         }
@@ -205,25 +210,25 @@ his_year:2016
             //string sy = "2017", sm = "03", sd = "06", ey = "2017", em = "03", ed = "08";
 
             var queryString = HttpUtility.ParseQueryString(String.Empty);
-            queryString.Add("DATA_DATE_Y", sy);
-            queryString.Add("DATA_DATE_M", sm);
-            queryString.Add("DATA_DATE_D", sd);
+            //queryString.Add("DATA_DATE_Y", sy);
+            //queryString.Add("DATA_DATE_M", sm);
+            //queryString.Add("DATA_DATE_D", sd);
 
-            queryString.Add("DATA_DATE_Y_E", ey);
-            queryString.Add("DATA_DATE_M_E", em);
-            queryString.Add("DATA_DATE_D_E", ed);
+            //queryString.Add("DATA_DATE_Y_E", ey);
+            //queryString.Add("DATA_DATE_M_E", em);
+            //queryString.Add("DATA_DATE_D_E", ed);
 
-            queryString.Add("syear", sy);
-            queryString.Add("smonth", sm);
-            queryString.Add("sday", sd);
+            //queryString.Add("syear", sy);
+            //queryString.Add("smonth", sm);
+            //queryString.Add("sday", sd);
 
-            queryString.Add("eyear", ey);
-            queryString.Add("emonth", em);
-            queryString.Add("eday", ed);
+            //queryString.Add("eyear", ey);
+            //queryString.Add("emonth", em);
+            //queryString.Add("eday", ed);
 
             //e.g. @"2017/03/06";
-            queryString.Add("datestart", sy + '/' + sm + '/' + sd);
-            queryString.Add("dateend", ey + '/' + em + '/' + ed);
+            queryString.Add("queryStartDate", sy + '/' + sm + '/' + sd);
+            queryString.Add("queryEndDate", ey + '/' + em + '/' + ed);
 
             return queryString;
         }
