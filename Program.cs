@@ -142,7 +142,7 @@ his_year:2016
             {
                 Console.WriteLine(" unknown args! ");
                 System.Environment.Exit(-1);
-            }            
+            }
 
             Console.WriteLine("******** get data from " + dateFrom + " to " + dateTo);
 
@@ -250,29 +250,48 @@ his_year:2016
             SaveToFile(filePath, response);
         }
 
-        private static void SaveToFile(string filePath, WebResponse response)
+        // save as orignal data byte.
+        private static void _SaveToFile(string filePath, WebResponse response)
         {
             using (var dataStream = response.GetResponseStream())
             using (FileStream outFile = new FileStream(filePath, FileMode.Create))
             {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
-                int totalByte=0;
+                int totalByte = 0;
                 while ((bytesRead = dataStream.Read(buffer, 0, buffer.Length)) != 0)
                 {
                     Console.WriteLine("..." + (totalByte += bytesRead));
                     outFile.Write(buffer, 0, bytesRead);
                 }
-                    
-            }            
+            }
         }
 
-        private static void _SaveToFile(string filePath, WebResponse response)
+        // save as UTF8
+        private static void SaveToFile(string filePath, WebResponse response)
         {
             using (var dataStream = response.GetResponseStream())
             using (var reader = new StreamReader(dataStream, Encoding.GetEncoding(950)))
-            using (var writer = new StreamWriter(filePath, false, Encoding.GetEncoding(950)))
-                writer.Write(reader.ReadToEnd());
+            using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
+            {
+                Console.WriteLine(reader.CurrentEncoding.EncodingName);
+
+                if (false)
+                    writer.Write(reader.ReadToEnd()); // write ALL
+                else
+                {
+                    // write with progress
+
+                    var buffer = new char[2048];
+                    int bytesRead;
+                    int totalByte = 0;
+                    while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) != 0)
+                    {
+                        Console.WriteLine("..." + (totalByte += bytesRead));
+                        writer.Write(buffer, 0, bytesRead);
+                    }
+                }
+            }
         }
     }
 }
