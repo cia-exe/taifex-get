@@ -128,8 +128,7 @@ his_year:2016
                     Console.WriteLine("Parse inf file error !");
                 }
 
-            }
-            if (args.Length == 1)
+            }else if (args.Length == 1)
             {
                 dateFrom = DateTime.Parse(args[0]);
             }
@@ -179,7 +178,7 @@ his_year:2016
 
         private static void SaveTradeInf(string sy, string sm, string sd, string ey, string em, string ed, string fileName)
         {
-            string url = "http://www.taifex.com.tw/cht/3/futDataDown";
+            string url = "https://www.taifex.com.tw/cht/3/dlFutDataDown";
             var queryData = NewQueryData(sy, sm, sd, ey, em, ed);
             queryData.Add("commodity_id", "all");
             queryData.Add("down_type", "1"); //?
@@ -189,7 +188,7 @@ his_year:2016
 
         private static void Save3LegelPersons(string sy, string sm, string sd, string ey, string em, string ed, string fileName)
         {
-            string url = "http://www.taifex.com.tw/cht/3/futContractsDateDown";
+            string url = "https://www.taifex.com.tw/cht/3/dlFutContractsDateDown";
             var queryData = NewQueryData(sy, sm, sd, ey, em, ed);
             queryData.Add("commodity_id", ""); //?
             //queryData.Add("firstDate", "2015/10/03 00:00"); //?
@@ -199,7 +198,7 @@ his_year:2016
 
         private static void SaveLargeTraders(string sy, string sm, string sd, string ey, string em, string ed, string fileName)
         {
-            string url = "http://www.taifex.com.tw/cht/3/largeTraderFutDown";
+            string url = "https://www.taifex.com.tw/cht/3/dlLargeTraderFutDown";
             var queryData = NewQueryData(sy, sm, sd, ey, em, ed);
             PostAndSave(url, queryData.ToString(), fileName);
         }
@@ -277,7 +276,10 @@ his_year:2016
                 Console.WriteLine(reader.CurrentEncoding.EncodingName);
 
                 if (false)
-                    writer.Write(reader.ReadToEnd()); // write ALL
+                {
+                    var s = reader.ReadToEnd();
+                    writer.Write(s); // write ALL
+                }
                 else
                 {
                     // write with progress
